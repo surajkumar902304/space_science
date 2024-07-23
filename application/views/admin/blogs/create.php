@@ -14,6 +14,11 @@
 
         <?php echo validation_errors(); ?>
         
+
+
+
+
+        
        
         <form action="<?=base_url("admin/blogs/create")?>" method="post" enctype="multipart/form-data">
         
