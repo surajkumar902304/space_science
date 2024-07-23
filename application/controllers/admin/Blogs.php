@@ -108,30 +108,6 @@ class Blogs extends CI_Controller
     }
 
 
-
-    // public function edit($id)
-    // {
-
-    //     $data['blog'] = $this->Blog_model->get_blogs($id);
-
-    //     $this->form_validation->set_rules('title', 'Title', 'required');
-    //     $this->form_validation->set_rules('long_content', 'Content', 'required');
-
-    //     if ($this->form_validation->run() === FALSE) {
-    //         $this->load->view('admin/blogs/edit', $data);
-    //     } else {
-    //         $data = array(
-    //             'image' => $this->input->post('image'),
-    //             'title' => $this->input->post('title'),
-    //             'date' => $this->input->post('date'),
-    //             'long_content' => $this->input->post('long_content')
-
-    //         );
-    //         $this->Blog_model->update_blog($id, $data);
-    //         redirect('admin/blogs');
-    //     }
-    // }
-
     public function delete($blog_id)
     {
         $this->Blog_model->update_blog_status($blog_id, 0);

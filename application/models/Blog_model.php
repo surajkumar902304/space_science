@@ -5,21 +5,24 @@ class Blog_model extends CI_Model {
         $this->load->database();
     }
 
-    public function get_blogs($id = FALSE) {
+    public function get_blogs($id = FALSE, $status = FALSE) {
         $this->db->order_by('create_act', 'DESC');
-        $this->db->where('status', 1); // Ensure the status is active
-        
+    
+        // If status is provided, filter by status
+        if ($status !== FALSE) {
+            $this->db->where('status', $status);
+        }
+    
+        // If id is not provided, get all blogs
         if ($id === FALSE) {
             $query = $this->db->get('blogs');
             return $query->result_array();
         }
-        
+    
+        // If id is provided, get the specific blog
         $query = $this->db->get_where('blogs', array('blog_id' => $id));
-        
         return $query->row_array();
     }
-
-    
 
     public function get_blog($blog_id) {
         $this->db->where('blog_id', $blog_id);
@@ -52,3 +55,4 @@ class Blog_model extends CI_Model {
     
 }
 ?>
+
