@@ -52,7 +52,7 @@ class Blogs extends CI_Controller
             $data = array(
                 'image' => $image,
                 'title' => $this->input->post('title'),
-                'category' => $this->input->post('category'),
+                'cat_id' => $this->input->post('category'),
                 'date' => $this->input->post('date'),
                 'long_content' => $this->input->post('long_content')
             );
@@ -119,5 +119,18 @@ class Blogs extends CI_Controller
         $this->Blog_model->update_blog_status($blog_id, 1);
         redirect('admin/blogs'); // redirect back to the blogs list
     }
+
+    public function blogs_with_category()
+{
+    $this->load->model('Blog_model');
+    $data['blogs'] = $this->Blog_model->update_blog_status();
+    
+    // Debugging
+    if (empty($data['blogs'])) {
+        log_message('error', 'No blogs retrieved in the index method.');
+    }
+    
+    $this->load->view('admin/blogs/index', $data);
+}
 }
 ?>

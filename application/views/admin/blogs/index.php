@@ -45,7 +45,7 @@
                                     
                                     <td><img src="<?php echo base_url('assets/uploads/blog_img/' . $blog['image']); ?>" width="50%" height="50%" class="img-fluid"></td>
                                     <td><?php echo $blog['title']; ?></td>
-                                    <td><?php echo $blog['category']; ?></td>
+                                    <td><?php echo $blog['cat_name']; ?></td>
                                     <td><?php echo $blog['date']; ?></td>
                                     <td><?= ($blog['status']=='0')?'Deactive':'Active'; ?></td>                                   
                                     <td>

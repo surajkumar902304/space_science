@@ -35,7 +35,7 @@
             <select class="form-control" id="category" name="category">
                 <option value="">Select a category</option>
                 <?php foreach ($categories as $category): ?>
-                    <option value="<?php echo $category['cat_name']; ?>" <?php echo set_select('category', $category['cat_name']); ?>>
+                    <option value="<?php echo $category['cat_id']; ?>" <?php echo set_select('category', $category['cat_name']); ?>>
                         <?php echo $category['cat_name']; ?>
                     </option>
                 <?php endforeach; ?>
