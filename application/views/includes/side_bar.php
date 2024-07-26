@@ -1,11 +1,18 @@
 <div class="sidebar">
     <ul>
+    
         <li>
+        
             <h1>FEATURED POSTS</h1>
-            <a href="singlepost.html"><img src="<?= base_url() ?>assets/images/moon-satellite.jpg" alt=""></a>
-            <h2>SOYUZ TMA-M</h2>
-            <span>FEBRUARY 6, 2023</span>
+            <a class="featured_blog" href="<?php echo site_url('singlepost/view/' . $featured_blog['blog_id']); ?>">
+                <img src="<?= base_url() ?>assets/uploads/blog_img/<?php echo $featured_blog['image']; ?>" alt="">
+            </a>
+            <h2><?php echo $featured_blog['title']; ?></h2>
+            <span><?php echo date('F j, Y', strtotime($featured_blog['date'])); ?></span>
+        
         </li>
+        
+        
         <li>
             <h1>RECENT Blogs</h1>
             <ul>

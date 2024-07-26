@@ -15,13 +15,18 @@ class Blogs extends CI_Controller
 
     public function index()
     {
+
         $data['blogs'] = $this->Blog_model->get_blogs();
+        
+        $this->load->view('admin/includes/header');
         $this->load->view('admin/blogs/index', $data);
+        $this->load->view('admin/includes/footer');
+
     }
 
     public function create_form()
     {
-        
+
         $data['categories'] = $this->Category_model->get_categories();
         $this->load->view('admin/blogs/create', $data);
     }
@@ -62,7 +67,7 @@ class Blogs extends CI_Controller
         }
     }
 
-    
+
     public function edit($id)
     {
         $data['categories'] = $this->Category_model->get_categories();
@@ -97,7 +102,7 @@ class Blogs extends CI_Controller
             $data = array(
                 'image' => $image,
                 'title' => $this->input->post('title'),
-                'category' => $this->input->post('category'),
+                'cat_id' => $this->input->post('cat_name'),
                 'date' => $this->input->post('date'),
                 'long_content' => $this->input->post('long_content')
             );
@@ -120,17 +125,22 @@ class Blogs extends CI_Controller
         redirect('admin/blogs'); // redirect back to the blogs list
     }
 
+
+    
+
     public function blogs_with_category()
-{
-    $this->load->model('Blog_model');
-    $data['blogs'] = $this->Blog_model->update_blog_status();
-    
-    // Debugging
-    if (empty($data['blogs'])) {
-        log_message('error', 'No blogs retrieved in the index method.');
+    {
+        $this->load->model('Blog_model');
+        $data['blogs'] = $this->Blog_model->update_blog_status();
+
+        // Debugging
+        if (empty($data['blogs'])) {
+            log_message('error', 'No blogs retrieved in the index method.');
+        }
+
+        $this->load->view('admin/blogs/index', $data);
     }
+
     
-    $this->load->view('admin/blogs/index', $data);
-}
 }
 ?>

@@ -32,14 +32,13 @@
     </div>
     <div class="form-group">
             <label for="category">Category:</label>
-            <select class="form-control" id="category" name="category">
-                <option value="">Select a category</option>
-                <?php foreach ($categories as $category): ?>
-                    <option value="<?php echo $category['cat_name']; ?>" <?php echo set_select('category', $category['cat_name']); ?>>
-                        <?php echo $category['cat_name']; ?>
-                    </option>
-                <?php endforeach; ?>
-            </select>       
+            <select name="cat_name">
+        <?php foreach($categories as $category): ?>
+            <option value="<?php echo $category['cat_id']; ?>" <?php echo set_select('cat_name', $category['cat_id'], ($category['cat_id'] == $blog['cat_id'])); ?>>
+                <?php echo $category['cat_name']; ?>
+            </option>
+        <?php endforeach; ?>
+    </select>     
         </div>
 
     <div class="form-group">

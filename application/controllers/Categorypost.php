@@ -1,25 +1,29 @@
-<div id="body">
-	<div class="header">
-		<div>
-			<h1>Blogs</h1>
-			<div class="article">
-				<ul>
-				<?php $i = 1; foreach ($blogs as $blog){ ?>
-					<li>
-						
-						<img src="<?php echo base_url('assets/uploads/blog_img/' . $blog['image']); ?>" width="1000" height="400" class="img-fluid">
-						
-						<h1><?php echo $i.")  ".$blog['title']; ?></h1>
-						<span><?php echo "Post Date : ".$blog['date']; ?></span>
-						<p><?php echo $blog['long_content']; ?></p>
-						<a href="<?php echo site_url('singlepost/view/' . $blog['blog_id']); ?>" class="more">Read More</a>
-					</li>
-					
-					<?php $i++; } ?>
-				</ul>
-			</div>
-			
-			<?php include('includes/side_bar.php'); ?>
-		</div>
-	</div>
-</div>
+<?php
+defined('BASEPATH') or exit('No direct script access allowed');
+
+class Categorypost extends CI_Controller
+{
+	public function __construct() {
+        parent::__construct();
+        $this->load->model('Blog_model');
+    }
+    // In your controller
+    public function index($cat_id)
+    {
+        $data['cat_id'] = $cat_id; // Add this line
+        $data['cat_name'] = $this->Blog_model->get_category_name($cat_id);
+        $data['blogs'] = $this->Blog_model->get_blogs_by_category($cat_id); // Make sure this method returns an array of blogs
+        $data['recent_blog'] = $this->Blog_model->get_recent_blog();
+        $data['featured_blog'] = $this->Blog_model->get_featured_blog();
+        $this->load->view('includes/header');
+        $this->load->view('categorypost', $data);
+        $this->load->view('includes/footer');
+    }
+    
+
+
+	
+    
+}
+
+?>

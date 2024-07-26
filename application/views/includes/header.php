@@ -14,9 +14,10 @@
 		.menu {
 			position: relative;
 			display: inline-block;
+			z
 		}
 
-		.secondary {
+		.secondary{
 			display: none;
 			position: absolute;
 			background-color: #333;
@@ -32,20 +33,66 @@
 			display: block;
 		}
 
-		.secondary li {
+		.secondary li{
 			color: white;
-			
+
 			text-decoration: none;
 			display: block;
 		}
 
-		.secondary li:hover,
-		.primary:hover {
+		
+
+		.sport_hover li {
+			color: white;
+			position: relative;
+			z-index: 9999;
+			background: red;
+			width: 50%;
+			height: 50%;
+
+		}
+
+		.secondary li:hover {
+
+			width: 100%;
 			background-color: #620031;
+
+		}
+
+		.secondary li:hover .main {
+			display: flex;
+
+		}
+
+
+
+
+
+
+		.menuLi {
+			display: block !important;
+		}
+
+		.main {
+			position: absolute;
+			top: 0;
+			left: 100%;
+			background-color: #333;
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: center;
+			align-items: center;
+			display: none;
+			width: 200px;
+		}
+
+		.main .subsubmenu {
+
+			padding: 4px !important;
+			width: 100% !important;
+
 		}
 	</style>
-
-
 </head>
 
 <body>
@@ -69,26 +116,43 @@
 						</ul>
 					</li>
 					<li class="menu">
-    <a href="<?= base_url() ?>blogpost">Blog</a>
-    <ul class="secondary">
-        <?php 
-        $CI =& get_instance(); 
-        $CI->load->model('category_model'); 
-        $categories = $CI->category_model->get_categories(); 
-        ?>
-        <?php foreach ($categories as $category) { ?>
-            <li style="color:white">
-                <a href="<?php echo site_url('categorypost/view/' . $category['cat_id']); ?>">
-                    <?php echo $category['cat_name']; ?>
-                </a>
-            </li>
-        <?php } ?>
-    </ul>
-</li>
+						<a href="<?= base_url() ?>blogpost">Blog</a>
+						<ul class="secondary position-relative">
+							<?php
+							$CI =& get_instance();
+							$CI->load->model('category_model');
+							$categories = $CI->category_model->get_categories();
+							?>
+							<?php foreach ($categories as $category) { ?>
+								<li style="width: 100%; color:white" class="menuLi">
+									<a href="<?php echo site_url('categorypost/index/' . $category['cat_id']); ?>">
+										<?php echo $category['cat_name']; ?>
+									</a>
+									<div class="main">
+										<?php
+										$CI->load->model('blog_model');
+										$blogs = $CI->blog_model->get_blogs_by_category($category['cat_id']);
+										if (!empty($blogs)) {
+										?>
+										<?php foreach ($blogs as $blog) { ?>
+											<div class="subsubmenu">
+												<a href="<?php echo site_url('singlepost/view/' . $blog['blog_id']); ?>"><?php echo $blog['title']; ?></a>
+											</div>
+										<?php } ?>
+									</div>
+									<?php } ?>
+								</li>
 
-				<li>
-					<a href="<?= base_url() ?>contact">Contact</a>
-				</li>
+							<?php } ?>
+
+						</ul>
+					</li>
+
+					<li class="menu">
+						<a href="<?= base_url() ?>contact">Contact</a>
+					</li>
+				</ul>
+
 				</ul>
 			</div>
 		</div>
