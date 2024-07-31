@@ -4,7 +4,13 @@ class Blogs extends CI_Controller
 
     public function __construct()
     {
+
+        
         parent::__construct();
+        $this->load->model('Blog_model');
+        if ($this->session->userdata('role') == '2' || empty($this->session->userdata('user_id'))) {
+            redirect('admin/auth/login');
+        }
         $this->load->helper(array('form', 'url'));
         $this->load->library('form_validation');
         $this->load->model('Blog_model');
@@ -24,10 +30,19 @@ class Blogs extends CI_Controller
 
     }
 
+    public function View_blogs()
+    {
+        $data['blogs'] = $this->Blog_model->get_blogs();
+
+        $this->load->view('admin/blogs/index', $data);
+        $this->load->view('admin/includes/footer');
+    }
+
     public function create_form()
     {
 
         $data['categories'] = $this->Category_model->get_categories();
+        $this->load->view('admin/includes/header');
         $this->load->view('admin/blogs/create', $data);
     }
 
@@ -77,6 +92,7 @@ class Blogs extends CI_Controller
         $this->form_validation->set_rules('long_content', 'Content', 'required');
 
         if ($this->form_validation->run() === FALSE) {
+            $this->load->view('admin/includes/header');
             $this->load->view('admin/blogs/edit', $data);
         } else {
             $image = $data['blog']['image']; // Default to existing image
@@ -126,7 +142,7 @@ class Blogs extends CI_Controller
     }
 
 
-    
+
 
     public function blogs_with_category()
     {
@@ -141,6 +157,6 @@ class Blogs extends CI_Controller
         $this->load->view('admin/blogs/index', $data);
     }
 
-    
+
 }
 ?>

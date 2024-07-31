@@ -9,6 +9,11 @@ class Auth_model extends CI_Model
         $this->load->database();
     }
 
+    public function register_user($data)
+    {
+        return $this->db->insert('users', $data);
+    }
+
     public function login_user($username, $password)
     {
         $this->db->where('email', $username);

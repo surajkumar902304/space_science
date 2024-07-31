@@ -12,7 +12,16 @@ class Post extends CI_Controller
 		parent::__construct();
 		$this->load->model('crud');
 	}
+	public function index()
+    {
 
+        $data['blogs'] = $this->crud->get_records();
+        
+        
+        $this->load->view('post/list', $data);
+        
+
+    }
 	
 
 

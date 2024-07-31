@@ -11,22 +11,44 @@ class Blogpost extends CI_Controller
     {
 		
         // Fetch blog data from model
-        $data['blogs'] = $this->Blog_model->blog_status(1);
+        $data['blogs'] = $this->Blog_model->fetch_blogs();
+        
         $data['featured_blog'] = $this->Blog_model->get_featured_blog();
         $data['recent_blog'] = $this->Blog_model->get_recent_blog();
+        
         // Load the view and pass the blogs data
         $this->load->view('includes/header');
         $this->load->view('blogpost', $data);
         $this->load->view('includes/footer');
     }
 	
-    public function view($blog_id)
+    public function view($blog_id=false)
     {
-        $data['blog'] = $this->Blog_model->get_blog($blog_id);  
-        $data['recent_blog'] = $this->Blog_model->get_recent_blog();
-		$this->load->view('includes/header');
-		$this->load->view('singlepost', $data);
-		$this->load->view('includes/footer');
+        if($blog_id){
+            $data['blog'] = $this->Blog_model->get_blog($blog_id); 
+
+            $this->output
+            ->set_status_header(200)
+        ->set_content_type('application/json')
+        ->set_output(json_encode(array('status' => true,'data'=>$data)));
+
+
+            
+        }
+        else{
+            
+            $this->output
+            ->set_status_header(404)
+        ->set_content_type('application/json')
+        ->set_output(json_encode(['status'=>false,"message"=>"Blog ID not given."]));
+
+            
+        }
+         
+        // $data['recent_blog'] = $this->Blog_model->get_recent_blog();
+		// $this->load->view('includes/header');
+		// $this->load->view('singlepost', $data);
+		// $this->load->view('includes/footer');
     }
     // public function recent_blogs() {
     //     $limit = 2;  // You can adjust the limit as needed

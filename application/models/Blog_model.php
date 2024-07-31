@@ -88,6 +88,10 @@ class Blog_model extends CI_Model
         return $query->result_array();
     }
 
+    public function fetch_blogs(){
+        return $this->db->get_where('blogs',array('status'=>1))->result_array();
+    }
+
     // In Blog_model.php
     public function get_blogs_by_category($cat_id) {
         $this->db->where('cat_id', $cat_id);
