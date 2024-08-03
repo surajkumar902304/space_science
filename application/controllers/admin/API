@@ -1,0 +1,52 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Api extends CI_Controller
+{
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->model('Auth_model'); // Load the Auth_model
+        $this->load->model('Blog_model'); // Load the Blog_model
+        $this->load->library('session'); // Load session library
+        $this->load->library('form_validation'); // Load form validation library
+        $this->load->helper('jwt_helper'); // Load JWT helper
+    }
+
+    // Function to get token from headers
+    private function get_token()
+    {
+        $headers = $this->input->request_headers();
+        if (isset($headers['Authorization'])) {
+            $token = str_replace('Bearer ', '', $headers['Authorization']);
+            return $token;
+        }
+        return null;
+    }
+
+    // Function to send JSON response
+    private function response($data, $status_code)
+    {
+        $this->output
+             ->set_content_type('application/json')
+             ->set_status_header($status_code)
+             ->set_output(json_encode($data, JSON_PRETTY_PRINT));
+    }
+
+    // GET Blogs
+    public function index_get()
+    {
+        $token = $this->get_token(); // Get token from headers
+        if (!$token) {
+            return $this->response(['error' => 'Token not provided'], 400);
+        }
+
+        $user_data = validate_jwt($token); // Validate token
+        if ($user_data) {
+            $data = $this->Blog_model->get_blogs();
+            return $this->response($data, 200);
+        } else {
+            return $this->response(['error' => 'Invalid token'], 401);
+        }
+    }
+}

@@ -5,7 +5,7 @@ class Blogs extends CI_Controller
     public function __construct()
     {
 
-        
+
         parent::__construct();
         $this->load->model('Blog_model');
         if ($this->session->userdata('role') == '2' || empty($this->session->userdata('user_id'))) {
@@ -23,8 +23,8 @@ class Blogs extends CI_Controller
     {
 
         $data['blogs'] = $this->Blog_model->get_blogs();
-        
-        $this->load->view('admin/includes/header');
+        $data['categories'] = $this->Category_model->get_categories();
+        $this->load->view('admin/includes/header', $data);
         $this->load->view('admin/blogs/index', $data);
         $this->load->view('admin/includes/footer');
 
@@ -78,56 +78,74 @@ class Blogs extends CI_Controller
             );
 
             $this->Blog_model->create_blog($data);
-            redirect('admin/blogs');
+            redirect('admin/blogs/create_form');
         }
     }
 
 
-    public function edit($id)
+    public function update($id)
     {
-        $data['categories'] = $this->Category_model->get_categories();
+        // Load necessary models and libraries
+        $this->load->library('upload');
+
+        // Fetch existing blog data
         $data['blog'] = $this->Blog_model->get_blogs($id);
+        $data['categories'] = $this->Category_model->get_categories();
 
-        $this->form_validation->set_rules('title', 'Title', 'required');
-        $this->form_validation->set_rules('long_content', 'Content', 'required');
-
-        if ($this->form_validation->run() === FALSE) {
-            $this->load->view('admin/includes/header');
-            $this->load->view('admin/blogs/edit', $data);
-        } else {
-            $image = $data['blog']['image']; // Default to existing image
-
-            // Check if a new file is uploaded
-            $config['upload_path'] = './assets/uploads/blog_img/';
-            $config['allowed_types'] = 'gif|jpg|png';
-
-            $this->load->library('upload', $config);
-
-            if ($this->upload->do_upload('image')) {
-                // Delete the old image if a new one is uploaded
-                $old_image_path = './assets/uploads/blog_img/' . $data['blog']['image'];
-                if (file_exists($old_image_path)) {
-                    unlink($old_image_path);
-                }
-                $uploadData = $this->upload->data();
-                $image = $uploadData['file_name'];
-            } else {
-                $error = array('error' => $this->upload->display_errors());
-            }
-
-            $data = array(
-                'image' => $image,
-                'title' => $this->input->post('title'),
-                'cat_id' => $this->input->post('cat_name'),
-                'date' => $this->input->post('date'),
-                'long_content' => $this->input->post('long_content')
-            );
-
-            $this->Blog_model->update_blog($id, $data);
-            redirect('admin/blogs');
-        }
+        // Load views
+        $this->load->view('admin/includes/header');
+        $this->load->view('admin/blogs/edit', $data);
     }
 
+
+    public function update_blog()
+    {
+        $id = $this->input->post('id'); // Retrieve the blog ID
+
+        // Load the upload library and configure it
+        $config['upload_path'] = './assets/uploads/blog_img/';
+        $config['allowed_types'] = 'jpg|png|jpeg';
+        $this->load->library('upload', $config);
+
+        // Fetch the current blog details to get the existing image
+        $current_blog = $this->Blog_model->get_blog($id);
+        $old_image = $current_blog['image'];
+
+        if ($_FILES['image']['name']) { // Check if a new image is uploaded
+            // Perform the image upload
+            if (!$this->upload->do_upload('image')) {
+                $error = array('error' => $this->upload->display_errors());
+                $this->session->set_flashdata('message', 'Failed to upload image');
+                redirect('admin/blogs/edit/' . $id);
+            } else {
+                // Get the new image data
+                $upload_data = $this->upload->data();
+                $image = $upload_data['file_name'];
+
+                // Delete the old image if it exists
+                if ($old_image && file_exists($config['upload_path'] . $old_image)) {
+                    unlink($config['upload_path'] . $old_image);
+                }
+            }
+        } else {
+            // Use the existing image if no new image is uploaded
+            $image = $old_image;
+        }
+
+        // Prepare the data to update
+        $data = array(
+            'image' => $image,
+            'title' => $this->input->post('title'),
+            'cat_id' => $this->input->post('category'),
+            'date' => $this->input->post('date'),
+            'long_content' => $this->input->post('long_content')
+        );
+
+        // Update the blog entry
+        $this->Blog_model->update_blog($id, $data);
+        $this->session->set_flashdata('message', 'Blog updated successfully');
+        redirect('admin/blogs');
+    }
 
     public function delete($blog_id)
     {

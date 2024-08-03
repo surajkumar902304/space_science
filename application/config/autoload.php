@@ -59,7 +59,14 @@ $autoload['packages'] = array();
 |	$autoload['libraries'] = array('user_agent' => 'ua');
 */
 $autoload['libraries'] = array('database', 'session');
-
+// {
+//     "autoload": {
+//         "psr-4": {
+//             "Restserver\\Libraries\\": "application/libraries/Restserver/Libraries/",
+//             "MyApp\\Libraries\\": "application/libraries/MyApp/Libraries/"
+//         }
+//     }
+// }
 /*
 | -------------------------------------------------------------------
 |  Auto-load Drivers

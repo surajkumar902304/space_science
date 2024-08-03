@@ -15,16 +15,22 @@
                 style="margin: 0 auto; width: 100px;">
         </div>
 
-        <?php echo validation_errors(); ?>
+        <?php if ($this->session->flashdata('message')): ?>
+            <div class="alert alert-danger">
+                <?php echo $this->session->flashdata('message'); ?>
+            </div>
+        <?php endif; ?>
 
+        <form action="<?= site_url('admin/blogs/update_blog'); ?>" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="id" value="<?php echo $blog['blog_id']; ?>">
+            <input type="hidden" name="existing_image" value="<?php echo $blog['image']; ?>">
 
-        <form action="<?= base_url("admin/blogs/edit/" . $blog['blog_id']); ?>" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="image">Image:</label>
                 <input type="file" id="image" name="image">
                 <?php if (!empty($blog['image'])): ?>
                     <div id="currentImage">
-                        <img src="<?php echo base_url("./assets/uploads/blog_img/" . $blog['image']); ?>" alt="Current Image"
+                        <img src="<?php echo base_url("assets/uploads/blog_img/" . $blog['image']); ?>" alt="Current Image"
                             style="max-width: 100px; max-height: 100px;">
                     </div>
                 <?php endif; ?>
@@ -35,12 +41,12 @@
                 <input type="text" class="form-control" id="title" name="title"
                     value="<?php echo set_value('title', $blog['title']); ?>">
             </div>
+
             <div class="form-group">
                 <label for="category">Category:</label>
-                
-                <select name="cat_name">
+                <select name="category" class="form-control">
                     <?php foreach ($categories as $category): ?>
-                        <option value="<?php echo $category['cat_id']; ?>" <?php echo set_select('cat_name', $category['cat_id'], ($category['cat_id'] == $blog['cat_id'])); ?>>
+                        <option value="<?php echo $category['cat_id']; ?>" <?php echo set_select('category', $category['cat_id'], ($category['cat_id'] == $blog['cat_id'])); ?>>
                             <?php echo $category['cat_name']; ?>
                         </option>
                     <?php endforeach; ?>

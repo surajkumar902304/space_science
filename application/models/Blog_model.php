@@ -58,6 +58,7 @@ class Blog_model extends CI_Model
     public function create_blog($data)
     {
         return $this->db->insert('blogs', $data);
+        
     }
 
     public function update_blog($id, $data)
@@ -66,6 +67,7 @@ class Blog_model extends CI_Model
         return $this->db->update('blogs', $data);
     }
 
+   
     public function update_blog_status($blog_id, $status)
     {
         $data = array('status' => $status);
@@ -113,6 +115,21 @@ class Blog_model extends CI_Model
         $query = $this->db->get('blogs');
         return $query->row_array();
     }
+
+    public function numRows($table, $conditions = array()) {
+        // Check if conditions are provided
+        if (!empty($conditions)) {
+            // Apply conditions
+            $this->db->where($conditions);
+        }
+    
+        // Get count of rows
+        $query = $this->db->from($table)->count_all_results();
+        
+        // Return the count
+        return $query;
+    }
+    
 
 }
 ?>

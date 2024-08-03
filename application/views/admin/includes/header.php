@@ -57,34 +57,14 @@
               data-bs-toggle="dropdown" aria-expanded="false"> Select Category </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list pb-0"
               aria-labelledby="messageDropdown">
-              <a class="dropdown-item py-3">
-                <p class="mb-0 fw-medium float-start">Select category</p>
-              </a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item preview-item">
-                <div class="preview-item-content flex-grow py-2">
-                  <p class="preview-subject ellipsis fw-medium text-dark">Bootstrap Bundle </p>
-                  <p class="fw-light small-text mb-0">This is a Bundle featuring 16 unique dashboards</p>
-                </div>
-              </a>
-              <a class="dropdown-item preview-item">
-                <div class="preview-item-content flex-grow py-2">
-                  <p class="preview-subject ellipsis fw-medium text-dark">Angular Bundle</p>
-                  <p class="fw-light small-text mb-0">Everything you’ll ever need for your Angular projects</p>
-                </div>
-              </a>
-              <a class="dropdown-item preview-item">
-                <div class="preview-item-content flex-grow py-2">
-                  <p class="preview-subject ellipsis fw-medium text-dark">VUE Bundle</p>
-                  <p class="fw-light small-text mb-0">Bundle of 6 Premium Vue Admin Dashboard</p>
-                </div>
-              </a>
-              <a class="dropdown-item preview-item">
-                <div class="preview-item-content flex-grow py-2">
-                  <p class="preview-subject ellipsis fw-medium text-dark">React Bundle</p>
-                  <p class="fw-light small-text mb-0">Bundle of 8 Premium React Admin Dashboard</p>
-                </div>
-              </a>
+              <select class="form-control" id="category" name="category">
+                <option value="">Select a category</option>
+                <?php foreach ($categories as $category): ?>
+                  <option value="<?php echo $category['cat_id']; ?>">
+                    <?php echo htmlspecialchars($category['cat_name']); ?>
+                  </option>
+                <?php endforeach; ?>
+              </select>              
             </div>
           </li>
           <li class="nav-item d-none d-lg-block">
@@ -155,7 +135,8 @@
               <div class="dropdown-divider"></div>
               <a class="dropdown-item preview-item">
                 <div class="preview-thumbnail">
-                  <img src="<?= base_url() ?>assets/admin/images/faces/face10.jpg" alt="image" class="img-sm profile-pic">
+                  <img src="<?= base_url() ?>assets/admin/images/faces/face10.jpg" alt="image"
+                    class="img-sm profile-pic">
                 </div>
                 <div class="preview-item-content flex-grow py-2">
                   <p class="preview-subject ellipsis fw-medium text-dark">Marian Garner </p>
@@ -164,7 +145,8 @@
               </a>
               <a class="dropdown-item preview-item">
                 <div class="preview-thumbnail">
-                  <img src="<?= base_url() ?>assets/admin/images/faces/face12.jpg" alt="image" class="img-sm profile-pic">
+                  <img src="<?= base_url() ?>assets/admin/images/faces/face12.jpg" alt="image"
+                    class="img-sm profile-pic">
                 </div>
                 <div class="preview-item-content flex-grow py-2">
                   <p class="preview-subject ellipsis fw-medium text-dark">David Grey </p>
@@ -201,7 +183,8 @@
                   class="dropdown-item-icon mdi mdi-calendar-check-outline text-primary me-2"></i> Activity</a>
               <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-help-circle-outline text-primary me-2"></i>
                 FAQ</a>
-              <a class="dropdown-item" href="<?php echo site_url('admin/auth/logout'); ?>"><i class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>Sign Out</a>
+              <a class="dropdown-item" href="<?php echo site_url('admin/auth/logout'); ?>"><i
+                  class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>Sign Out</a>
             </div>
           </li>
         </ul>
@@ -243,7 +226,8 @@
               <ul class="nav flex-column sub-menu">
                 <li class="nav-item"> <a class="nav-link" href="<?php echo site_url('admin/blogs/create_form'); ?>">Add
                     Blog</a></li>
-                <li class="nav-item"> <a class="nav-link" href="<?php echo site_url('admin/blogs/View_blogs'); ?>">View Blog</a>
+                <li class="nav-item"> <a class="nav-link" href="<?php echo site_url('admin/blogs/View_blogs'); ?>">View
+                    Blog</a>
                 </li>
               </ul>
             </div>

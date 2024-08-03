@@ -1,4 +1,9 @@
 <?php
+
+
+// Ensure that the Composer autoload file is included
+require_once __DIR__ . '/vendor/autoload.php';
+
 /**
  * CodeIgniter
  *

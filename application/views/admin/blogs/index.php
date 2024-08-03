@@ -26,7 +26,7 @@
                                     <td><?php echo $blog['date']; ?></td>
                                     <td><?= ($blog['status']=='0')?'Deactive':'Active'; ?></td>                                   
                                     <td>
-                                        <a href="<?php echo site_url('admin/blogs/edit/'.$blog['blog_id']); ?>">
+                                        <a href="<?php echo site_url('admin/blogs/update/'.$blog['blog_id']); ?>">
                                             <i class="fa fa-pencil"></i>
                                         </a>
                                         
