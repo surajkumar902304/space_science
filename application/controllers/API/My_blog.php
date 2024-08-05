@@ -1,4 +1,5 @@
 <?php
+
 // application/controllers/API/My_blog.php
 defined('BASEPATH') or exit('No direct script access allowed');
 
@@ -69,8 +70,6 @@ class My_blog extends REST_Controller
         }
     }
 
-
-
     public function index_post()
     {
         // Configuration for file upload
@@ -78,7 +77,7 @@ class My_blog extends REST_Controller
         $config['allowed_types'] = 'jpg|png|jpeg';
         $config['max_size'] = 2048; // Maximum file size in KB (2MB)
 
-        $this->load->library('upload', $config);
+        $this->upload->initialize($config);
 
         // Check if the upload is successful
         if (!$this->upload->do_upload('image')) {
@@ -101,10 +100,11 @@ class My_blog extends REST_Controller
 
             // Prepare data for insertion
             $data = array(
-                'title' => $this->post('title'),
                 'image' => $image,
+                'title' => $this->post('title'),
                 'cat_id' => $this->post('cat_id'),
                 'date' => $this->post('date'),
+                
                 'long_content' => $this->post('long_content')
             );
 
@@ -134,8 +134,6 @@ class My_blog extends REST_Controller
             }
         }
     }
-
-
 
     public function index_delete()
     {

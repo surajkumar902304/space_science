@@ -45,6 +45,12 @@ class Blog_model extends CI_Model
         return $query->row_array();
     }
 
+    public function get_blogs_by_admin($admin_id) {
+        $this->db->where('created_by', $admin_id);
+        $query = $this->db->get('blogs');
+        return $query->result(); // Return array of blog records
+    }
+
     public function get_recent_blog($limit = 2)
     {
         $this->db->limit($limit);
@@ -57,7 +63,8 @@ class Blog_model extends CI_Model
 
     public function create_blog($data)
     {
-        return $this->db->insert('blogs', $data);
+        $this->db->insert('blogs', $data);
+        return $this->db->insert_id();
         
     }
 

@@ -24,6 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 $config['base_url'] = 'http://localhost/suraj-CI/';
+$config['jwt_secret_key'] = 'impactmindz@123';
 
 /*
 |--------------------------------------------------------------------------

@@ -5,6 +5,7 @@
     <title>Edit Blog</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="<?= base_url(); ?>assets/style.css">
+    <script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
 </head>
 
 <body>
@@ -61,12 +62,20 @@
 
             <div class="form-group">
                 <label for="long_content">Content:</label>
-                <textarea class="form-control" id="long_content"
+                <textarea class="form-control" id="editor"
                     name="long_content"><?php echo set_value('long_content', $blog['long_content']); ?></textarea>
             </div>
+            
 
             <button type="submit" class="btn btn-primary">Update Blog</button>
         </form>
+        <script>
+            ClassicEditor
+                .create(document.querySelector('#editor'))
+                .catch(error => {
+                    console.error(error);
+                });
+        </script>
 
     </div>
 
