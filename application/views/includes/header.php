@@ -105,7 +105,7 @@
 						<a href="<?= base_url() ?>">Home</a>
 					</li>
 					<li>
-						<a href="<?= base_url() ?>about">About</a>
+						<a href="<?= base_url() ?>suraj">About</a>
 					</li>
 					<li class="menu">
 						<a href="<?= base_url() ?>projects">Projects</a>

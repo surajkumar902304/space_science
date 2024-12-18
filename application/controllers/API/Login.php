@@ -2,7 +2,7 @@
 require 'vendor/autoload.php';
 use \Firebase\JWT\JWT;
 
-// application/controllers/API/My_blog.php
+// application/controllers/API/Login.php
 defined('BASEPATH') or exit('No direct script access allowed');
 
 require APPPATH . 'libraries/REST_Controller.php';
